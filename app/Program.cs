@@ -1,3 +1,4 @@
+using Google.Cloud.PubSub.V1;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -119,7 +120,21 @@ app.MapPost("/api/events", async (SecurityEvent securityEvent, IValidator<Securi
     logger.LogInformation("Security event ingested: {EventId} [{EventType}] with severity {Severity} from {Source}", 
         securityEvent.EventId, securityEvent.EventType, securityEvent.Severity, securityEvent.Source);
 
-    // In a real scenario, publish to Pub/Sub here.
+    // Publish to Google Cloud Pub/Sub
+    try
+    {
+        var topicName = TopicName.FromProjectTopic("project-d2917da9-e732-4731-944", "security-events-topic");
+        var publisher = await PublisherClient.CreateAsync(topicName);
+        var jsonMessage = JsonSerializer.Serialize(securityEvent);
+        
+        await publisher.PublishAsync(jsonMessage);
+        logger.LogInformation("Successfully published event {EventId} to Pub/Sub.", securityEvent.EventId);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Failed to publish event to Pub/Sub.");
+        return Results.Problem("Error routing event to the pipeline.");
+    }
     
     return Results.Created($"/api/events/{securityEvent.EventId}", securityEvent);
 })
