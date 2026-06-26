@@ -84,6 +84,10 @@ app.UseExceptionHandler(exceptionHandlerApp =>
     });
 });
 
+// Serve static files from wwwroot
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 // Enable Swagger UI
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -121,6 +125,9 @@ app.MapPost("/api/events", async (SecurityEvent securityEvent, IValidator<Securi
 })
 .WithName("IngestEvent")
 .WithDescription("Ingests a new security event.");
+
+// Fallback: serve index.html for unmatched routes
+app.MapFallbackToFile("index.html");
 
 app.Run();
 

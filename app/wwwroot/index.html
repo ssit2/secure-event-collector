@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Event Collector — Dashboard</title>
+    <meta name="description" content="Enterprise dashboard for the Secure Event Collector API deployed on Google Cloud Run.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="header-title">
+                <span class="header-icon">🛡️</span>
+                <div>
+                    <h1>Secure Event Collector</h1>
+                    <p class="header-subtitle">Cloud-Native Security Event Pipeline</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Status Cards -->
+        <section class="status-row">
+            <div class="status-card">
+                <span class="status-dot green" id="api-status-dot"></span>
+                <div class="status-info">
+                    <span class="status-label">API Status</span>
+                    <span class="status-value" id="api-status-text">Checking…</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <span class="status-dot green"></span>
+                <div class="status-info">
+                    <span class="status-label">Cloud Run</span>
+                    <span class="status-value">Active</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <span class="status-dot green" id="ready-status-dot"></span>
+                <div class="status-info">
+                    <span class="status-label">Readiness</span>
+                    <span class="status-value" id="ready-status-text">Checking…</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="actions-row">
+            <button class="btn btn-primary" id="btn-send-event" type="button">Send Test Event</button>
+            <button class="btn btn-secondary" id="btn-health" type="button">Health Check</button>
+            <button class="btn btn-outline" id="btn-swagger" type="button">Open Swagger API</button>
+        </section>
+
+        <!-- Response Banner -->
+        <div class="response-banner hidden" id="response-banner">
+            <span id="response-text"></span>
+        </div>
+
+        <!-- Event Form -->
+        <section class="card form-card">
+            <h2 class="card-title">Submit Security Event</h2>
+            <form id="event-form" autocomplete="off">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="eventType">Event Type</label>
+                        <select id="eventType" required>
+                            <option value="">Select type…</option>
+                            <option value="Authentication">Authentication</option>
+                            <option value="Firewall">Firewall</option>
+                            <option value="Api">Api</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="source">Source</label>
+                        <input type="text" id="source" placeholder="e.g. 192.168.1.50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="severity">Severity</label>
+                        <select id="severity" required>
+                            <option value="">Select severity…</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" placeholder="Brief event description" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" type="submit">Send Event</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Response Detail Card -->
+        <section class="card response-card hidden" id="response-card">
+            <h2 class="card-title">API Response</h2>
+            <pre id="response-json"></pre>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Secure Event Collector API &middot; Deployed on Google Cloud Run &middot; Managed with Terraform</p>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
