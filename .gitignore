@@ -1,0 +1,11 @@
+# Terraform ignored files
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
+# C# and .NET ignored files
+app/bin/
+app/obj/
+bin/
+obj/
