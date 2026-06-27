@@ -1,70 +1,186 @@
-/* ── Base Styles ────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   Secure Event Collector — Custom Stylesheet
+   GCP-inspired design system with modern typography
+   ═══════════════════════════════════════════════════ */
+
+/* ── Base & Typography ──────────────────────────────── */
 body {
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    color: #3c4043;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #202124;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #f8f9fa;
 }
 
-.font-google-sans {
-    font-family: 'Google Sans', 'Roboto', sans-serif;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.02em;
 }
 
-.font-roboto {
-    font-family: 'Roboto', sans-serif;
+/* ── Navigation ────────────────────────────────────── */
+.navbar {
+    transition: all 0.25s ease;
 }
 
-/* ── Typography Enhancements ────────────────────── */
-.tracking-wide {
-    letter-spacing: 0.05em;
-}
-
-/* ── Components ─────────────────────────────────── */
-.status-indicator {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-}
-
-.border-dashed {
-    border: 2px dashed #dadce0 !important;
-}
-
-/* ── Nav Customization ──────────────────────────── */
 .navbar-brand {
+    font-size: 1.15rem;
     letter-spacing: -0.5px;
 }
+
 .nav-link {
     font-weight: 500;
+    font-size: 0.9rem;
     color: #5f6368 !important;
-    transition: color 0.2s;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px;
+    transition: all 0.15s ease-in-out;
 }
+
 .nav-link:hover {
     color: #1a73e8 !important;
+    background-color: #e8f0fe;
 }
+
 .nav-link.active {
     color: #1a73e8 !important;
+    background-color: #e8f0fe;
     font-weight: 600;
 }
 
-/* ── Custom Response Alert Colors ───────────────── */
-.alert-success-subtle {
-    background-color: #f1f8f3;
-    border-color: #c3e6cb;
-    color: #155724;
+/* ── Interactive Card Enhancements ─────────────────── */
+.card-hover {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.alert-danger-subtle {
-    background-color: #fcf1f1;
-    border-color: #f5c6cb;
-    color: #721c24;
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* ── Utilities ──────────────────────────────────── */
-.max-w-md {
-    max-width: 28rem;
+.icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+}
+
+.icon-circle-lg {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    font-size: 1.5rem;
+}
+
+/* ── Status Indicators ────────────────────────────── */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.status-dot.pulse {
+    animation: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(52, 168, 83, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(52, 168, 83, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(52, 168, 83, 0);
+    }
+}
+
+/* ── Labels & Microcopy ────────────────────────────── */
+.label-sm {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #80868b;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+/* ── Architecture Flow Chart ───────────────────────── */
+.flow-arrow {
+    text-align: center;
+    font-size: 2rem;
+    color: #dadce0;
+    line-height: 1;
+    margin: 0.25rem 0;
+}
+
+.arch-card {
+    border: 1px solid #dadce0 !important;
+    transition: all 0.2s ease;
+}
+
+.arch-card:hover {
+    border-color: #1a73e8 !important;
+    background-color: #f8f9ff;
+}
+
+/* ── Quick Simulator Options ───────────────────────── */
+.simulator-btn {
+    border: 1px solid #dadce0;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.simulator-btn:hover {
+    border-color: #1a73e8;
+    background-color: #f8f9ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.08);
+}
+
+/* ── Alerts & Notifications ────────────────────────── */
+.alert-event-success {
+    background-color: #e6f4ea;
+    border: 1px solid #34a853;
+    color: #137333;
+}
+
+.alert-event-error {
+    background-color: #fce8e6;
+    border: 1px solid #ea4335;
+    color: #c5221f;
+}
+
+/* ── Live JSON Preview Area ───────────────────────── */
+.json-preview {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.8rem;
+    background-color: #202124;
+    color: #f1f3f4;
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/* ── Footer ────────────────────────────────────────── */
+footer {
+    background-color: #ffffff;
 }
