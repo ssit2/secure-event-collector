@@ -147,4 +147,4 @@ app.MapFallbackToFile("index.html");
 app.Run();
 
 // Required for Integration Testing Setup
-public partial class Program { }
+public partial class Program { }// Forced update to trigger GitHub Actions
