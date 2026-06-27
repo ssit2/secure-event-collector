@@ -4,117 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Event Collector — Dashboard</title>
-    <meta name="description" content="Enterprise dashboard for the Secure Event Collector API deployed on Google Cloud Run.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/site.css">
 </head>
-<body>
+<body class="bg-light">
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-inner">
-            <div class="header-title">
-                <span class="header-icon">🛡️</span>
-                <div>
-                    <h1>Secure Event Collector</h1>
-                    <p class="header-subtitle">Cloud-Native Security Event Pipeline</p>
-                </div>
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
+                <i class="bi bi-shield-check text-primary me-2 fs-4"></i>
+                <span class="font-google-sans">Secure Event Collector</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto font-google-sans">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create.html">Create Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/live.html">Live Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/swagger" target="_blank">Swagger API <i class="bi bi-box-arrow-up-right ms-1 small"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about.html">About</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container">
+    <!-- Main Content -->
+    <main class="container mt-5 pt-5 pb-5">
+        
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12 text-center my-4">
+                <h1 class="display-6 fw-bold font-google-sans text-dark">Cloud-Native Security Event Pipeline</h1>
+                <p class="lead text-muted font-roboto">High-throughput ingestion layer deployed on Google Cloud Run.</p>
+            </div>
+        </div>
 
         <!-- Status Cards -->
-        <section class="status-row">
-            <div class="status-card">
-                <span class="status-dot green" id="api-status-dot"></span>
-                <div class="status-info">
-                    <span class="status-label">API Status</span>
-                    <span class="status-value" id="api-status-text">Checking…</span>
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm border-0 rounded-3">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                            <i class="bi bi-activity fs-3 text-primary"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted text-uppercase mb-1 small fw-bold">Service Status</h6>
+                            <div class="d-flex align-items-center">
+                                <span class="status-indicator bg-success me-2" id="api-status-dot"></span>
+                                <span class="fw-semibold font-roboto fs-5" id="api-status-text">Checking...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="status-card">
-                <span class="status-dot green"></span>
-                <div class="status-info">
-                    <span class="status-label">Cloud Run</span>
-                    <span class="status-value">Active</span>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm border-0 rounded-3">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                            <i class="bi bi-cloud fs-3 text-info"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted text-uppercase mb-1 small fw-bold">Cloud Run</h6>
+                            <div class="d-flex align-items-center">
+                                <span class="status-indicator bg-success me-2"></span>
+                                <span class="fw-semibold font-roboto fs-5">Active</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="status-card">
-                <span class="status-dot green" id="ready-status-dot"></span>
-                <div class="status-info">
-                    <span class="status-label">Readiness</span>
-                    <span class="status-value" id="ready-status-text">Checking…</span>
-                </div>
-            </div>
-        </section>
 
-        <!-- Action Buttons -->
-        <section class="actions-row">
-            <button class="btn btn-primary" id="btn-send-event" type="button">Send Test Event</button>
-            <button class="btn btn-secondary" id="btn-health" type="button">Health Check</button>
-            <button class="btn btn-outline" id="btn-swagger" type="button">Open Swagger API</button>
-        </section>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm border-0 rounded-3">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                            <i class="bi bi-send fs-3 text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted text-uppercase mb-1 small fw-bold">Pub/Sub Status</h6>
+                            <div class="d-flex align-items-center">
+                                <span class="status-indicator bg-success me-2"></span>
+                                <span class="fw-semibold font-roboto fs-5">Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Response Banner -->
-        <div class="response-banner hidden" id="response-banner">
-            <span id="response-text"></span>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm border-0 rounded-3">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle bg-secondary bg-opacity-10 p-3 me-3">
+                            <i class="bi bi-telegram fs-3 text-secondary"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-muted text-uppercase mb-1 small fw-bold">Telegram Status</h6>
+                            <div class="d-flex align-items-center">
+                                <span class="status-indicator bg-success me-2"></span>
+                                <span class="fw-semibold font-roboto fs-5">Connected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Event Form -->
-        <section class="card form-card">
-            <h2 class="card-title">Submit Security Event</h2>
-            <form id="event-form" autocomplete="off">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="eventType">Event Type</label>
-                        <select id="eventType" required>
-                            <option value="">Select type…</option>
-                            <option value="Authentication">Authentication</option>
-                            <option value="Firewall">Firewall</option>
-                            <option value="Api">Api</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="source">Source</label>
-                        <input type="text" id="source" placeholder="e.g. 192.168.1.50" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="severity">Severity</label>
-                        <select id="severity" required>
-                            <option value="">Select severity…</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                            <option value="Critical">Critical</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text" id="description" placeholder="Brief event description" required>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button class="btn btn-primary" type="submit">Send Event</button>
-                </div>
-            </form>
-        </section>
-
-        <!-- Response Detail Card -->
-        <section class="card response-card hidden" id="response-card">
-            <h2 class="card-title">API Response</h2>
-            <pre id="response-json"></pre>
-        </section>
-
+        <!-- Quick Actions -->
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <a href="/create.html" class="btn btn-primary btn-lg px-4 me-md-2 shadow-sm rounded-pill font-google-sans mb-3 mb-md-0">
+                    <i class="bi bi-plus-circle me-2"></i> Create Event
+                </a>
+                <a href="/live.html" class="btn btn-outline-secondary btn-lg px-4 me-md-2 bg-white shadow-sm rounded-pill font-google-sans mb-3 mb-md-0">
+                    <i class="bi bi-list-ul me-2"></i> Live Events
+                </a>
+                <a href="/swagger" target="_blank" class="btn btn-outline-primary btn-lg px-4 bg-white shadow-sm rounded-pill font-google-sans">
+                    <i class="bi bi-braces me-2"></i> API Docs
+                </a>
+            </div>
+        </div>
+        
     </main>
 
-    <footer class="footer">
-        <p>Secure Event Collector API &middot; Deployed on Google Cloud Run &middot; Managed with Terraform</p>
+    <!-- Footer -->
+    <footer class="bg-white border-top py-4 mt-auto">
+        <div class="container text-center">
+            <p class="mb-1 fw-semibold font-google-sans text-dark">Secure Event Collector API</p>
+            <p class="text-muted small mb-2">Cloud Native Portfolio Project</p>
+            <div class="d-flex justify-content-center align-items-center gap-2 small text-muted font-roboto">
+                <span>ASP.NET Core</span> &bull;
+                <span>Google Cloud Run</span> &bull;
+                <span>Pub/Sub</span> &bull;
+                <span>Terraform</span>
+            </div>
+        </div>
     </footer>
 
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/app.js"></script>
 </body>
 </html>

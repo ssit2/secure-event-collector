@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event - Secure Event Collector</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body class="bg-light">
+
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
+                <i class="bi bi-shield-check text-primary me-2 fs-4"></i>
+                <span class="font-google-sans">Secure Event Collector</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto font-google-sans">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/create.html">Create Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/live.html">Live Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/swagger" target="_blank">Swagger API <i class="bi bi-box-arrow-up-right ms-1 small"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about.html">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-5 pt-5 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                
+                <div class="mb-4 d-flex justify-content-between align-items-end">
+                    <div>
+                        <h2 class="font-google-sans fw-bold mb-1">Create Security Event</h2>
+                        <p class="text-muted mb-0">Simulate incoming security telemetry data</p>
+                    </div>
+                </div>
+
+                <!-- Response Alert (Hidden by default) -->
+                <div id="response-alert" class="alert d-none shadow-sm rounded-3 d-flex align-items-start" role="alert">
+                    <i id="response-icon" class="bi bi-check-circle-fill fs-4 me-3 mt-1"></i>
+                    <div class="w-100">
+                        <h5 id="response-title" class="alert-heading font-google-sans fw-bold mb-1">Event Sent Successfully</h5>
+                        <p id="response-message" class="mb-2">Your event has been ingested and published to the pipeline.</p>
+                        <hr class="opacity-25 my-2">
+                        <div class="small font-roboto">
+                            <div class="row mb-1">
+                                <div class="col-sm-3 text-muted">Event ID:</div>
+                                <div class="col-sm-9 fw-semibold text-dark font-monospace" id="resp-event-id"></div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3 text-muted">Correlation ID:</div>
+                                <div class="col-sm-9 fw-semibold text-dark font-monospace" id="resp-correlation-id"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 text-muted">Timestamp:</div>
+                                <div class="col-sm-9 fw-semibold text-dark font-monospace" id="resp-timestamp"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Card -->
+                <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+                    <div class="card-body p-4 p-md-5">
+                        <form id="create-event-form" autocomplete="off">
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label for="eventName" class="form-label text-muted small fw-bold text-uppercase">Event Name</label>
+                                    <input type="text" class="form-control form-control-lg bg-light" id="eventName" placeholder="e.g. Failed Login Attempt" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="eventType" class="form-label text-muted small fw-bold text-uppercase">Event Type</label>
+                                    <select class="form-select form-select-lg bg-light" id="eventType" required>
+                                        <option value="" selected disabled>Select Type</option>
+                                        <option value="Authentication">Authentication</option>
+                                        <option value="Firewall">Firewall</option>
+                                        <option value="Api">API</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="severity" class="form-label text-muted small fw-bold text-uppercase">Severity</label>
+                                    <select class="form-select form-select-lg bg-light" id="severity" required onchange="updateSeverityColor(this)">
+                                        <option value="" selected disabled>Select Severity</option>
+                                        <option value="Low" class="text-success fw-bold">Low</option>
+                                        <option value="Medium" class="text-warning fw-bold">Medium</option>
+                                        <option value="High" class="text-danger fw-bold">High</option>
+                                        <option value="Critical" class="text-dark fw-bold">Critical</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="source" class="form-label text-muted small fw-bold text-uppercase">Source IP / Host</label>
+                                    <input type="text" class="form-control form-control-lg bg-light" id="source" placeholder="e.g. 192.168.1.10" required>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="description" class="form-label text-muted small fw-bold text-uppercase">Description / Details</label>
+                                    <textarea class="form-control bg-light" id="description" rows="3" placeholder="Provide detailed context about the event..." required></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-5 gap-3">
+                                <button type="reset" id="btn-reset" class="btn btn-light px-4 font-google-sans text-muted fw-semibold rounded-pill">Reset</button>
+                                <button type="submit" id="btn-submit" class="btn btn-primary px-5 shadow-sm font-google-sans fw-semibold rounded-pill">
+                                    <i class="bi bi-send me-2"></i> Send Event
+                                </button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-top py-4 mt-auto">
+        <div class="container text-center">
+            <p class="mb-1 fw-semibold font-google-sans text-dark">Secure Event Collector API</p>
+            <p class="text-muted small mb-2">Cloud Native Portfolio Project</p>
+            <div class="d-flex justify-content-center align-items-center gap-2 small text-muted font-roboto">
+                <span>ASP.NET Core</span> &bull;
+                <span>Google Cloud Run</span> &bull;
+                <span>Pub/Sub</span> &bull;
+                <span>Terraform</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        function updateSeverityColor(selectElement) {
+            selectElement.className = "form-select form-select-lg bg-light";
+            switch(selectElement.value) {
+                case 'Low': selectElement.classList.add('text-success', 'fw-bold'); break;
+                case 'Medium': selectElement.classList.add('text-warning', 'fw-bold'); break;
+                case 'High': selectElement.classList.add('text-danger', 'fw-bold'); break;
+                case 'Critical': selectElement.classList.add('text-dark', 'fw-bold'); break;
+            }
+        }
+    </script>
+</body>
+</html>
