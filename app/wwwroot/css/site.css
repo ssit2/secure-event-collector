@@ -184,3 +184,223 @@ h1, h2, h3, h4, h5, h6 {
 footer {
     background-color: #ffffff;
 }
+
+/* ═══════════════════════════════════════════════════
+   Presentation Polish — restrained, enterprise-appropriate
+   Additive only: extends existing selectors and adds new
+   opt-in classes. No existing rule is modified or removed,
+   so current markup keeps working exactly as-is.
+   ═══════════════════════════════════════════════════ */
+
+/* ── Depth tokens (kept minimal, single accent) ────── */
+:root {
+    --sec-shadow-sm: 0 1px 2px rgba(32, 33, 36, 0.06);
+    --sec-shadow-md: 0 2px 8px rgba(32, 33, 36, 0.08);
+    --sec-shadow-lg: 0 8px 24px rgba(32, 33, 36, 0.10);
+    --sec-border-hairline: rgba(32, 33, 36, 0.08);
+    --sec-accent-tint: rgba(26, 115, 232, 0.06);
+    --sec-text-tertiary: #80868b;
+}
+
+/* ── Body: faint top gradient wash instead of glow ─── */
+body {
+    background-image: linear-gradient(180deg, #fbfcfe 0%, #f8f9fa 320px);
+    background-repeat: no-repeat;
+}
+
+/* ── Type rhythm: tighten heading line-height, keep
+   the existing letter-spacing untouched ──────────── */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.25;
+}
+
+p {
+    color: #3c4043;
+}
+
+/* ── Navigation ─────────────────────────────────────── */
+.navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    color: #202124;
+}
+
+.nav-link {
+    position: relative;
+}
+
+.navbar.is-scrolled {
+    box-shadow: var(--sec-shadow-sm);
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── Cards: quieter resting shadow, calmer hover ───── */
+.card-hover {
+    box-shadow: var(--sec-shadow-sm);
+    border-color: var(--sec-border-hairline) !important;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sec-shadow-md) !important;
+}
+
+/* ── Icon circles: soft tint ring, no glow ─────────── */
+.icon-circle,
+.icon-circle-lg {
+    box-shadow: inset 0 0 0 1px var(--sec-border-hairline);
+    background-color: var(--sec-accent-tint);
+}
+
+/* ── Buttons: crisper resting/hover state, no shine ── */
+.btn {
+    transition: box-shadow 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-primary,
+.btn.btn-primary {
+    box-shadow: var(--sec-shadow-sm);
+}
+
+.btn-primary:hover,
+.btn.btn-primary:hover {
+    box-shadow: var(--sec-shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active,
+.btn.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* ── Status indicators: steadier pulse, ring on hover  */
+.status-dot.pulse {
+    animation-duration: 2.4s;
+}
+
+.status-indicator {
+    border-radius: 20px;
+    padding: 0.2rem 0.6rem 0.2rem 0.4rem;
+    transition: background-color 0.2s ease;
+}
+
+.status-indicator:hover {
+    background-color: var(--sec-accent-tint);
+}
+
+.status-indicator .status-dot {
+    transition: box-shadow 0.2s ease;
+}
+
+/* ── Labels: slightly calmer weight for dense screens  */
+.label-sm {
+    color: var(--sec-text-tertiary);
+}
+
+/* ── Architecture flow chart: quieter arrow, hover lift */
+.flow-arrow {
+    transition: color 0.2s ease;
+}
+
+.arch-card:hover {
+    box-shadow: var(--sec-shadow-sm);
+}
+
+/* ── Simulator buttons: refined focus + hover depth ── */
+.simulator-btn:hover {
+    box-shadow: var(--sec-shadow-md);
+}
+
+.simulator-btn:focus-visible {
+    outline: 2px solid #1a73e8;
+    outline-offset: 2px;
+}
+
+/* ── Alerts: clearer left accent, consistent radius ── */
+.alert-event-success,
+.alert-event-error {
+    border-left-width: 3px;
+    border-radius: 8px;
+    box-shadow: var(--sec-shadow-sm);
+}
+
+/* ── JSON preview: inset depth, tinted selection,
+   quieter scrollbar so it doesn't fight the dark panel */
+.json-preview {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), var(--sec-shadow-md);
+    scrollbar-width: thin;
+    scrollbar-color: #5f6368 #202124;
+}
+
+.json-preview::-webkit-scrollbar {
+    width: 8px;
+}
+
+.json-preview::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.json-preview::-webkit-scrollbar-thumb {
+    background-color: #5f6368;
+    border-radius: 8px;
+    border: 2px solid #202124;
+}
+
+.json-preview::selection {
+    background-color: rgba(26, 115, 232, 0.35);
+    color: #ffffff;
+}
+
+/* ── Section headers: small accent tick (opt-in) ───── */
+.section-title-accent {
+    position: relative;
+    padding-left: 0.75rem;
+}
+
+.section-title-accent::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 3px;
+    border-radius: 2px;
+    background-color: #1a73e8;
+}
+
+/* ── Stat/metric emphasis (opt-in) ─────────────────── */
+.metric-value {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+/* ── Footer: hairline separation from page content ─── */
+footer {
+    border-top: 1px solid var(--sec-border-hairline);
+}
+
+/* ── Focus states (accessible, presentation-safe) ──── */
+a:focus-visible,
+.nav-link:focus-visible,
+.btn:focus-visible {
+    outline: 2px solid #1a73e8;
+    outline-offset: 2px;
+}
+
+/* ── Reduced motion: disable non-essential transitions  */
+@media (prefers-reduced-motion: reduce) {
+    .card-hover,
+    .simulator-btn,
+    .btn,
+    .navbar,
+    .status-indicator,
+    .flow-arrow {
+        transition: none !important;
+    }
+    .status-dot.pulse {
+        animation: none;
+    }
+}

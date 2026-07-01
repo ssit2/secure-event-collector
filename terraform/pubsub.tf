@@ -1,0 +1,21 @@
+# Create a Pub/Sub Topic to receive security events
+
+resource "google_pubsub_topic" "security_events_topic" {
+
+  name = "security-events-topic"
+
+}
+
+
+
+# Grant the Cloud Run Service Account permission to publish messages to this topic
+
+resource "google_pubsub_topic_iam_member" "api_publisher_binding" {
+
+  topic  = google_pubsub_topic.security_events_topic.name
+
+  role   = "roles/pubsub.publisher"
+
+  member = "serviceAccount:${google_service_account.cloud_run_sa.email}"
+
+}
